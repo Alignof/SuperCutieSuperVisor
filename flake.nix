@@ -1,5 +1,5 @@
 {
-  description = "Rust template";
+  description = "ARM + RISC-V bare metal OS";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -36,7 +36,12 @@
         in
         {
           default = pkgs.mkShell {
-            buildInputs = [ toolchain ];
+            nativeBuildInputs = [
+              toolchain
+              pkgs.cargo-binutils  # cargo objcopy / objdump / nm
+              pkgs.qemu            # qemu-system-aarch64, qemu-system-riscv64
+              pkgs.gdb             # multiarch debugger
+            ];
           };
         }
       );
